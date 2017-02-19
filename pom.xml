@@ -35,6 +35,12 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+    		<groupId>net.sf.py4j</groupId>
+    		<artifactId>py4j</artifactId>
+    		<version>0.10.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -74,45 +80,29 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
-				<groupId>com.akathist.maven.plugins.launch4j</groupId>
-				<artifactId>launch4j-maven-plugin</artifactId>
-				<version>1.7.11</version>
-				<executions>
-					<execution>
-						<id>l4j-clui</id>
-						<phase>package</phase>
-						<goals>
-							<goal>launch4j</goal>
-						</goals>
-						<configuration>
-							<headerType>console</headerType>
-							<outfile>${project.build.directory}/ark-tools.exe</outfile>
-							<jar>${project.artifactId}.jar</jar>
-							<dontWrapJar>true</dontWrapJar>
-							<errTitle>ARK Tools</errTitle>
-							<classPath>
-								<mainClass>qowyn.ark.tools.App</mainClass>
-								<addDependencies>false</addDependencies>
-							</classPath>
-							<jre>
-								<minVersion>1.8.0</minVersion>
-							</jre>
-							<versionInfo>
-								<fileVersion>${launch4j.version}</fileVersion>
-								<txtFileVersion>${project.version}</txtFileVersion>
-								<fileDescription>Tools for doing stuff with ARK:SE savegames</fileDescription>
-								<copyright>Copyright (c) 2016 Roland Firmont</copyright>
-								<productVersion>${launch4j.version}</productVersion>
-								<txtProductVersion>${project.version}</txtProductVersion>
-								<productName>ARK Tools</productName>
-								<internalName>ark-tools</internalName>
-								<originalFilename>ark-tools.exe</originalFilename>
-							</versionInfo>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>qowyn.ark.tools.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+					  <manifest>
+						<mainClass>qowyn.ark.tools.App</mainClass>
+					  </manifest>
+					</archive>
+					<descriptorRefs>
+					  <descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
